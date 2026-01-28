@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOINOPHOBIA APP - Master Exceptional Web3 Skills</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for chat */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans h-screen flex flex-col overflow-hidden">
+
+    <!-- Navbar -->
+    <nav class="border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center text-white font-bold text-xl">K</div>
+                    <span class="font-bold text-xl tracking-tight text-slate-900">KOINOPHOBIA</span>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <div id="network-badge" class="hidden items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-xs font-medium text-slate-600 border border-slate-200">
+                        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                        Ethereum Mainnet
+                    </div>
+                    <button id="connect-wallet-btn" class="group relative px-5 py-2.5 rounded-lg bg-slate-900 text-white font-medium hover:bg-slate-800 transition-all duration-200 shadow-lg shadow-slate-200 hover:shadow-xl active:scale-95 flex items-center gap-2 overflow-hidden">
+                        <span class="relative z-10 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            <span id="wallet-text">Connect Wallet</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-4rem)]">
+        
+        <!-- Left Column: AI Study Chat -->
+        <div class="lg:col-span-8 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden h-full">
+            <!-- Chat Header -->
+            <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+                <div>
+                    <h2 class="font-semibold text-slate-900">KOINOPHOBIA AI</h2>
+                    <p class="text-xs text-slate-500">Master exceptional Web3 skills & mint certifications</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="px-2 py-1 rounded-md bg-blue-50 text-blue-600 text-xs font-medium border border-blue-100">Solidity Basics</span>
+                </div>
+            </div>
+
+            <!-- Chat Area -->
+            <div id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth">
+                <!-- Welcome Message -->
+                <div class="flex gap-4 animate-fade-in">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex-shrink-0 flex items-center justify-center text-white text-xs font-bold">AI</div>
+                    <div class="flex-1 space-y-2">
+                        <div class="bg-slate-100 p-4 rounded-2xl rounded-tl-none text-slate-700 text-sm leading-relaxed max-w-[90%]">
+                            <p>Welcome to KOINOPHOBIA. I am your guide to becoming exceptional in Web3. I verify deep technical knowledge.</p>
+                            <p class="mt-2">Ask me about advanced topics:</p>
+                            <ul class="list-disc list-inside mt-1 space-y-1 text-slate-600">
+                                <li>Zero Knowledge Proofs (ZK-SNARKs)</li>
+                                <li>Advanced Solidity & Assembly (Yul)</li>
+                                <li>DeFi Flash Loan Arbitrage</li>
+                                <li>Rust & Solana Account Model</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-4 border-t border-slate-100 bg-white">
+                <form id="chat-form" class="relative flex items-end gap-2">
+                    <div class="flex-1 relative">
+                        <input type="text" id="chat-input" 
+                            class="w-full pl-4 pr-12 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all placeholder-slate-400 text-sm" 
+                            placeholder="Ask a question about blockchain..." autocomplete="off">
+                        <div class="absolute right-3 bottom-2.5 text-xs text-slate-400 font-medium">CMD+K</div>
+                    </div>
+                    <button type="submit" class="p-3 rounded-xl bg-blue-600 text-white hover:bg-blue-700 active:scale-95 transition-all shadow-md shadow-blue-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Right Column: Certifications & Progress -->
+        <div class="lg:col-span-4 flex flex-col gap-6 h-full overflow-y-auto scrollbar-hide">
+            
+            <!-- Progress Card -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                <h3 class="font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    Current Progress
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-xs font-medium text-slate-600 mb-1">
+                            <span>Web3 Fundamentals</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-blue-500 w-3/4 rounded-full"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs font-medium text-slate-600 mb-1">
+                            <span>Smart Security</span>
+                            <span>30%</span>
+                        </div>
+                        <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-indigo-500 w-[30%] rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Available Certifications -->
+            <div class="flex-1 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
+                <h3 class="font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                    </svg>
+                    Ready to Mint
+                </h3>
+                
+                <div id="certs-list" class="space-y-3">
+                    <!-- Cert Item (Locked) -->
+                    <div class="group relative p-4 rounded-xl border border-slate-100 bg-slate-50 hover:border-blue-200 transition-all">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-xl shadow-sm">🔐</div>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 text-slate-500 uppercase tracking-wide">Locked</span>
+                        </div>
+                        <h4 class="font-medium text-slate-900 text-sm">ZK-Rollup Architect</h4>
+                        <p class="text-xs text-slate-500 mt-1">Requires: Advanced Math, Cryptography</p>
+                    </div>
+
+                    <!-- Cert Item (Locked) -->
+                    <div class="group relative p-4 rounded-xl border border-slate-100 bg-slate-50 hover:border-blue-200 transition-all">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-xl shadow-sm">⚡</div>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 text-slate-500 uppercase tracking-wide">Locked</span>
+                        </div>
+                        <h4 class="font-medium text-slate-900 text-sm">Flash Loan Arbitrageur</h4>
+                        <p class="text-xs text-slate-500 mt-1">Requires: Solidity, DeFi Protocols</p>
+                    </div>
+
+                    <!-- Cert Item (Locked) -->
+                    <div class="group relative p-4 rounded-xl border border-slate-100 bg-slate-50 hover:border-blue-200 transition-all">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-xl shadow-sm">🦀</div>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 text-slate-500 uppercase tracking-wide">Locked</span>
+                        </div>
+                        <h4 class="font-medium text-slate-900 text-sm">Rust & Solana Specialist</h4>
+                        <p class="text-xs text-slate-500 mt-1">Requires: Rust, Anchor Framework</p>
+                    </div>
+
+                    <!-- Cert Item (Available) -->
+                    <div class="group relative p-4 rounded-xl border border-green-100 bg-green-50/50 hover:bg-green-50 transition-all cursor-pointer">
+                        <div class="absolute top-3 right-3 h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="w-10 h-10 rounded-lg bg-white border border-green-100 flex items-center justify-center text-xl shadow-sm">🏆</div>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-700 uppercase tracking-wide">Ready</span>
+                        </div>
+                        <h4 class="font-medium text-slate-900 text-sm">Blockchain Basics</h4>
+                        <p class="text-xs text-slate-500 mt-1">Score: 100% • 20 $NODE Fee (Simulated)</p>
+                        
+                        <!-- Chain Selector -->
+                        <div class="mt-3 mb-2">
+                            <label class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block mb-1.5">Select Chain</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <button onclick="app.selectChain('BNB', this)" class="chain-sel-btn active py-1.5 rounded border border-yellow-500 bg-yellow-50 text-[10px] font-bold text-yellow-700 transition-all">BNB</button>
+                                <button onclick="app.selectChain('SOL', this)" class="chain-sel-btn py-1.5 rounded border border-slate-200 bg-white text-[10px] font-bold text-slate-500 hover:border-purple-300 hover:text-purple-600 transition-all">SOL</button>
+                                <button onclick="app.selectChain('BASE', this)" class="chain-sel-btn py-1.5 rounded border border-slate-200 bg-white text-[10px] font-bold text-slate-500 hover:border-blue-300 hover:text-blue-600 transition-all">BASE</button>
+                            </div>
+                        </div>
+
+                        <button onclick="app.mintCert('basics')" class="mt-2 w-full py-2 rounded-lg bg-white border border-green-200 text-green-700 text-xs font-semibold hover:bg-green-600 hover:text-white hover:border-transparent transition-all shadow-sm">
+                            Mint on Blockchain
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Minted Section (Hidden by default) -->
+                <div id="minted-section" class="mt-6 pt-6 border-t border-slate-100 hidden">
+                    <h3 class="font-semibold text-slate-900 mb-4 text-sm">Your Wallet Assets</h3>
+                    <div id="wallet-assets" class="space-y-3"></div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Modals / Overlays -->
+    <div id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
